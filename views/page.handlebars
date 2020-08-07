@@ -1,0 +1,15 @@
+<div id = "allPackages">
+    {{#each mealPackages}}
+    <div class="topMealPackages">
+        <div class = "image">
+            <img src={{this.image}} width="200">
+        </div>
+        <h3>
+            {{this.title}}
+        </h3>
+        <p> 
+            {{this.price}}
+        </p>
+    </div>
+    {{/each}}
+</div>

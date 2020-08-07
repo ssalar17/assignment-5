@@ -1,0 +1,64 @@
+<h1>
+    No cooking, just eating. 
+</h1>
+<div id="content">  
+    <div class="content">
+        <div class="image">
+            <img src="/img/Pick_1.gif" width="140">
+        </div>
+        <h2>
+            Pick 
+        </h2>
+        <p>100+ menu of all-natural dishes.</p>
+    </div>
+
+    <div class="content">
+        <div class="image">
+            <img src="/img/heat.gif" width="140">
+        </div>
+        <h2>
+            Heat
+        </h2>
+        <p>Cooked & delivered.</p>
+    </div>
+
+    <div class="content">
+        <div class="image">
+            <img src="/img/eat_1_1.gif" width="140">
+        </div>
+        <h2>
+            Eat 
+        </h2>
+        <p>Delicious & nutritious.</p>
+    </div>
+
+    <div class="content">
+        <div class="image">
+            <img src="/img/repeat---Copy.gif" width="140">
+        </div>
+        <h2>
+            Repeat 
+        </h2>
+        <p>Skip a week or cancel any time.</p>
+    </div>
+</div>
+
+<h1>
+    Our chefs are making these right now!
+</h1>
+
+<div id = "topMealPackages">
+    {{#each topMeals}}
+    <div class="topMealPackages">
+        <div class = "image">
+            <img src={{this.image}} width="200">
+        </div>
+        <h3>
+            {{this.title}}
+        </h3>
+        <p> 
+            {{this.price}}
+        </p>
+    </div>
+    {{/each}}
+</div>
