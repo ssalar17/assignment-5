@@ -3,6 +3,8 @@ const exphbs = require('express-handlebars');
 const db = require('./model/dataDB');
 const app = express(); 
 const bodyParser = require('body-parser');
+const clientSessions = require("client-sessions"); //assign3
+const dataServiceAuth = require("./model/dataAuthUsers.js"); //assign3
 
 require('dotenv').config({path:"./config/keys.env"});
 
@@ -11,14 +13,50 @@ app.use(express.static('public'));
 app.engine('handlebars', exphbs()); 
 app.set('view engine', 'handlebars'); 
 
+app.use(clientSessions({ //assign3
+    cookieName: "session", 
+    secret: "web322Assignment", 
+    duration: 2 * 60 * 1000, 
+    activeDuration: 1000 * 60 
+  }));
+
+app.use(clientSessions({ //assign3
+    cookieName: "dataClerkSession", 
+    secret: "web322Assignment", 
+    duration: 2 * 60 * 1000, 
+    activeDuration: 1000 * 60 
+  }));
+
+app.use(function(req, res, next) { //assign3
+    res.locals.session = req.session;
+    next();
+});
+
+function ensureLogin(req, res, next) { //assign3 
+    if (!req.session.user) {
+      res.redirect("/login");
+    } else {
+      next();
+    }
+  }
+
+function ensureDataClerkLogin(req, res, next) { //assign3 
+    if (!req.dataClerkSession.user) {
+      res.redirect("/login");
+    } else {
+      next();
+    }
+  }
+
 app.get("/", (req,res)=>{
 
     res.render("home", {
         title: "Home Page", 
         topMeals: db.topMealsDB,
         hero: "Meals and grocery delivered."
-    });
+    }); 
 });
+
 app.get("/AllPackages", (req,res)=>{
 
     res.render("page", {
@@ -34,13 +72,15 @@ app.get("/login", (req,res)=>{
         hero: "Meals and grocery delivered."
     })
 })
+
 app.get("/signup", (req,res)=>{
     res.render("signup", {
         title: "signup",
         hero: "Meals and grocery delivered."
     })
 })
-app.post("/login", (req,res)=>{
+
+app.post("/login", (req,res) =>{
     const errors = [];
     if(req.body.Email==="")
     {
@@ -60,14 +100,43 @@ app.post("/login", (req,res)=>{
     }
     else 
     { 
-        res.redirect("/");
+        req.body.userAgent = req.get('User-Agent');
+        dataServiceAuth.checkUser(req.body).then((user) => {
+        if (!user.dataClerk) { 
+        req.session.user = {
+            Email: user.email,
+            loginHistory: user.loginHistory
+        }
+
+        res.redirect('/userDashboard') //need Dashboard
     }
+        else
+        { 
+        req.session.dataClerk = {
+            Email: user.email,
+            loginHistory: user.loginHistory
+        }  
+
+        res.redirect('/Dataclerk')
+        }
+        }).catch((err) => {
+            res.render("login", {errorMessages: err, Email: req.body.Email, title: "Login", hero: "Meals and grocery delivered."});
+        });
+    }
+});
+
+app.get("/logout", (req,res)=> {
+    req.session.reset();
+    req.dataClerkSession.reset(); 
+    res.redirect('/');
 })
+
 app.post("/signup", (req,res)=>{
     const errors = [];
     const regex = /^[a-zA-Z0-9]*$/;
     const regex2 = /^[a-zA-Z]*$/;
     const {firstName, lastName, Email, Password} = req.body;
+    req.body.dataClerk=false;
     if(firstName==="")
     {
         errors.push("You must enter a first name");
@@ -110,6 +179,8 @@ app.post("/signup", (req,res)=>{
     }
     else
     {
+        dataServiceAuth.registerUser(req.body).then(()=>{
+        
         const sgMail = require('@sendgrid/mail');
         sgMail.setApiKey(`${process.env.SENDGRID_API_KEY}`);
         const msg = {
@@ -121,11 +192,26 @@ app.post("/signup", (req,res)=>{
     };
     sgMail.send(msg);
             res.redirect("/");
+        })
         }
     })
 
-    const PORT = process.env.PORT || 3000;
+app.get("/userDashboard", ensureLogin, (req,res) => {
+    res.render("userDashboard", {title: "Dashboard"})
+});
 
-    app.listen(PORT, ()=>{
-        console.log("Web Server is up and running");
+app.get("/Dataclerk", ensureDataClerkLogin, (req,res) => {
+    res.render("Dataclerk", {title: "Dashboard"})
+});
+
+const PORT = process.env.PORT || 3000;
+
+dataServiceAuth.initialize()
+.then(dataServiceAuth.initialize)
+.then(function(){
+    app.listen(PORT, function(){
+        console.log("app listening on: " + PORT)
     });
+}).catch(function(err){
+    console.log("unable to start server: " + err);
+}); 
