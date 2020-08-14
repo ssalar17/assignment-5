@@ -3,6 +3,9 @@
 </h1>
 <div class="form">
     <form method="POST" action="login">
+    {{#if error}}
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+    {{/if}}
     {{#each errorMessages}}
     <div class="alert alert-danger" role="alert">{{this}}</div>
     {{/each}}

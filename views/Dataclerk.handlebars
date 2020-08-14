@@ -1,5 +1,6 @@
 <div class= "dashboard">
-    <h2>Welcome {{session.dashboard.firstName}} {{session.dashboard.lastName}}! Check out our variety of options!</h2>
-    <button class = "btn btn-success">Add Package</button>
+    <h2>Welcome {{dataClerkSession.user.firstName}} {{dataClerkSession.user.lastName}}! Check out our variety of options!</h2>
+    <a href="/addPackages" class = "btn btn-success">Add Package</a>
     <button class = "btn btn-success">Package List</button>
+    <a href= "/logout" class = "btn btn-success">Logout</a>
 </div>

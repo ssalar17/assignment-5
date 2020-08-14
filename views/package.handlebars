@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="image">
+                <image src={{package.image}} width="300">
+                </image>
+            </div>
+        </div>
+        <div class="col-md-5"></div>
+        <div class="row">
+            <div class="col-md-10">
+                <h1>{{package.title}}</h1>
+                <hr />
+            </div>
+
+            <div class="col-md-10">
+
+                <h2>${{package.price}}</h2>
+
+            </div>
+            {{#if session.user}}
+            <div class="form">
+                <form action="/addPackage/{{package.title}}" method="POST" id="addPackage">
+
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input class="form-control" name="title" type="text" value="{{package.title}}"
+                            readonly="readonly">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numberOfMeals">Quantity:</label>
+                        <input type="number" name="numberOfMeals" min="1" max="100" maxlength="4">
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Add to Cart">
+                </form>
+            </div>
+            {{/if}}
+
+            <div class="col-md-10 synopsis">
+                <p>{{package.synopsis}}<br><br>No. of meals: {{package.numberOfMeals}}</p>
+            </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script>
+        
+         function addToCart(data){
+                console.log("Calling add with: "+data);
+                 makeAJAXRequest("POST", "/addPackage", {name: data});
+            }
+        </div>
+    </div>
+</div>

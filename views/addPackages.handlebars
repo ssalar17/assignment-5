@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="packages">
+
+        <h2>Add Package</h2>
+        <hr />
+
+        <form method="post" action="/packages/add">
+
+            <fieldset>
+                <legend>Package information</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="title">Package Name:</label>
+                            <input class="form-control" id="title" name="title" type="text" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="price">Package Price:</label>
+                            <input class="form-control" id="price" name="price" type="number" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="synopsis">Package Description:</label>
+                            <input class="form-control" id="synopsis" name="synopsis" type="text" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="foodCategory">Food Category:</label>
+                            <input class="form-control" id="foodCategory" name="foodCategory" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="numberOfMeals">Number of Meals Inside Package</label>
+                            <input class="form-control" id="numberOfMeals" name="numberOfMeals" type="text" />
+                        </div>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="topPackage" name="Top Meal Package" value="true"
+                            class="custom-control-input">This is a top meal package</input>
+                        <input type="radio" id="notTopPackage" name="Top Meal Package" value="false"
+                            class="custom-control-input">This is not a top meal package</input>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <form method="post" action="/image/add" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="title">Image File:</label>
+                                        <input class="form-control" id="image" name="image" type="file" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <input type="submit" class="btn btn-primary pull-right"
+                                value="Add Image" /><br /><br /><br />
+
+                        </form>
+                    </div>
+                </div>
+    </div>
+</div>

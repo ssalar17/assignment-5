@@ -1,0 +1,55 @@
+       <style >
+           img {
+                border-radius: 25px;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row"><h1>My Cart</h1></div>
+            <div class="row">
+            <div class="col-md-5">
+                <h2>Image</h2>
+            </div>
+            <div class="col-md-5">
+               <h2>Product</h2>
+            </div>
+            <div class="col-md-5">
+                <h2>Price</h2>
+            </div>
+            <div class="col-md-5">
+                <h2 class="total" style="color: green;">Total: {{data.total}}</h2>
+            </div>
+
+        </div>
+        <hr>
+        <div id="list">
+        {{#each data.cart}}
+            <div class="row">
+                <div class="col-md-5">
+                    <img class="img-fluid" src="/imgs/{{img}}" alt="{{name}}">
+                </div>
+                <div class="col-md-5">
+                    <h5>{{name}}</h5>
+                </div>
+                <div class="col-md-5">
+                    <h4>${{price}}</h4>
+                </div>
+                <div class="col-md-5">
+
+                    <button  type="button" onclick='removeFromCart("{{name}}")'>Remove from Cart</button>
+                </div>
+            </div>
+        <hr>
+        {{else}}
+            <div class="row">
+                <div><h5>Cart is Empty</h5></div>
+            </div>
+        {{/each}}
+        </div>
+        <hr>
+        
+        </div>
+    </body>
+</html>
