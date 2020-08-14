@@ -18,15 +18,9 @@
                 <h2>${{package.price}}</h2>
 
             </div>
-            {{#if session.user}}
+            
             <div class="form">
                 <form action="/addPackage/{{package.title}}" method="POST" id="addPackage">
-
-                    <div class="form-group">
-                        <label for="title">Title:</label>
-                        <input class="form-control" name="title" type="text" value="{{package.title}}"
-                            readonly="readonly">
-                    </div>
 
                     <div class="form-group">
                         <label for="numberOfMeals">Quantity:</label>
@@ -35,7 +29,7 @@
                     <input type="submit" class="btn btn-primary" value="Add to Cart">
                 </form>
             </div>
-            {{/if}}
+            
 
             <div class="col-md-10 synopsis">
                 <p>{{package.synopsis}}<br><br>No. of meals: {{package.numberOfMeals}}</p>
